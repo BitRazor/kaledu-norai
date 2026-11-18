@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title>Kalėdų norų sąrašas</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%81%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -444,7 +445,7 @@ function card(item){
   const fam = item.added_by !== "kid";
   const card = el("article", {class: "card" + ((adult && c) || (adult && item.removed_by_kid) ? " dim" : "")});
   card.append(pic(item));
-  card.append(el("div", {class: "num" + (fam ? " fam" : ""), "aria-label": fam ? "Šeimos pasiūlymas" : "Numeris " + item.num}, fam ? "★" : String(item.num ?? "")));
+  card.append(el("div", {class: "num" + (fam ? " fam" : ""), "aria-label": fam ? "Šeimos pasiūlymas" : "Numeris " + dispNum(item)}, fam ? "★" : String(dispNum(item))));
   if (adult && c) card.append(el("div", {class: "ribbon", "aria-hidden": "true"}, "UŽIMTA"));
   const b = el("div", {class: "body"});
   if (adult) {
@@ -620,16 +621,21 @@ function render(){
     const own = items.filter(i => i.added_by === "kid" && shown(i) && keep(i));
     const fam = items.filter(i => i.added_by !== "kid" && shown(i) && keep(i));
     if (S.filter === "taken" || S.filter === "mine") main.append(overview(items.filter(i => S.claims[i.id] && (S.filter === "taken" || isMine(i)))));
-    main.append(el("h2", {}, "Isabelle norai"), el("p", {class: "sub"}, "Numeriai tokie patys kaip jos ranka rašytame sąraše."),
+    main.append(el("h2", {}, "Isabelle norai"), el("p", {class: "sub"}, "Tai, ko Isabelle nori pati. Širdelės rodo, kaip labai."),
       own.length ? grid(own) : el("p", {class: "empty"}, "Nieko nerasta."));
     main.append(el("h2", {}, "Šeimos pasiūlymai"), el("p", {class: "sub"}, "Pažymėti „Slapta“ – Isabelle nematomi. Kitus ji mato ir gali įvertinti."),
       fam.length ? grid(fam) : el("p", {class: "empty"}, "Nieko nerasta."));
   } else {
     const own = items.filter(i => i.added_by === "kid" && !i.removed_by_kid);
     const fam = items.filter(i => i.added_by !== "kid" && !i.removed_by_kid);
-    main.append(el("h2", {}, "Mano norai"), el("p", {class: "sub"}, "Numeriai tokie patys kaip tavo sąraše."), own.length ? grid(own) : el("p", {class: "empty"}, "Kol kas tuščia."));
+    main.append(el("h2", {}, "Mano norai"), el("p", {class: "sub"}, "Kuo daugiau širdelių, tuo labiau nori."), own.length ? grid(own) : el("p", {class: "empty"}, "Kol kas tuščia."));
     if (fam.length) main.append(el("h2", {}, "Šeimos pasiūlymai"), el("p", {class: "sub"}, "Ar nori ir šitų? Duok širdelių arba pašalink."), grid(fam));
   }
+}
+function dispNum(i){
+  if (i.added_by !== "kid" || i.removed_by_kid) return "";
+  const list = S.items.filter(x => x.added_by === "kid" && !x.removed_by_kid);
+  return list.indexOf(list.find(x => x.id === i.id)) + 1 || "";
 }
 function isMine(i){ const c = S.claims[i.id]; return !!c && (c.buyer_device === deviceId || (!!S.me && (c.partners || []).includes(S.me))); }
 function overview(list){
@@ -638,7 +644,7 @@ function overview(list){
   const body = el("tbody");
   list.forEach(i => { const c = S.claims[i.id];
     body.append(el("tr", {},
-      el("td", {}, (i.num ? i.num + ". " : "") + i.title, i.removed_by_kid ? el("div", {class: "co"}, "Isabelle pašalino iš sąrašo") : null),
+      el("td", {}, (dispNum(i) ? dispNum(i) + ". " : "") + i.title, i.removed_by_kid ? el("div", {class: "co"}, "Isabelle pašalino iš sąrašo") : null),
       el("td", {}, el("span", {class: "who"}, c.buyer_device === deviceId ? c.buyer + " (jūs)" : c.buyer),
         (c.partners || []).length ? el("div", {class: "co"}, "+ " + c.partners.join(", ")) : null),
       el("td", {class: "r"}, i.price_nok != null ? "~" + fmt(i.price_nok) + " kr" : "–"))); });
