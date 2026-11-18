@@ -137,7 +137,8 @@ begin
     price_nok  = case when p_item ? 'price_nok'  then (case when (p_item->>'price_nok') ~ '^[0-9]{1,7}$' then (p_item->>'price_nok')::int end) else price_nok end,
     price_note = case when p_item ? 'price_note' then left(p_item->>'price_note', 80)  else price_note end,
     link       = case when p_item ? 'link'       then left(p_item->>'link', 500)       else link end,
-    secret     = case when p_item ? 'secret'     then coalesce((p_item->>'secret')::boolean, false) else secret end
+    secret     = case when p_item ? 'secret'     then coalesce((p_item->>'secret')::boolean, false) else secret end,
+    ask_note   = case when p_item ? 'ask_note'   then coalesce((p_item->>'ask_note')::boolean, false) else ask_note end
   where id = p_item_id and list_id = p_list;
   return json_build_object('ok', found);
 end $$;
