@@ -45,14 +45,44 @@ h1 .heart{color:var(--pink)}
 .me b{color:var(--gold)}
 .linkbtn{background:none;border:0;color:#cfc8ff;text-decoration:underline;font:700 15px var(--body);cursor:pointer;padding:2px}
 
-.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:4px 0 8px}
-.chip{background:var(--paper);color:var(--ink);border-radius:999px;padding:6px 14px;font-weight:800;font-variant-numeric:tabular-nums}
-.chip.free{background:#c9f2df;color:#0d4a33}
-.chip.mine{background:#ffe0ef;color:#7a1d4b}
-.btn{font:700 15px var(--body);border-radius:10px;border:1px solid #ffffff33;background:#ffffff14;color:#fff;padding:8px 14px;cursor:pointer}
-.btn:hover{background:#ffffff24}
-.btn[aria-pressed="true"]{background:var(--gold);color:var(--ink);border-color:var(--gold)}
-.btn.primary{background:var(--pink);border-color:var(--pink)}
+.bar{display:grid;gap:12px;margin:4px 0 8px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.stat{background:#ffffff10;border:1px solid #ffffff22;border-radius:14px;padding:10px 14px}
+.stat .k{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:#b9b3e0;font-weight:800}
+.stat .v{font-family:var(--display);font-size:22px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.25}
+.stat .v small{font-family:var(--body);font-size:14px;color:#cfc8ff;font-weight:700}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.seg{display:inline-flex;flex-wrap:wrap;background:#ffffff10;border:1px solid #ffffff26;border-radius:12px;padding:3px;gap:2px}
+.seg button{font:700 14px var(--body);color:#e7e2ff;background:transparent;border:0;border-radius:9px;padding:8px 12px;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.seg button:hover{background:#ffffff14}
+.seg button .n{font-variant-numeric:tabular-nums;background:#ffffff22;border-radius:999px;padding:0 7px;font-size:12px}
+.seg button[aria-pressed="true"]{background:var(--paper);color:var(--ink)}
+.seg button[aria-pressed="true"] .n{background:#26213f17}
+.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.select{font:700 14px var(--body);color:#fff;background:#ffffff10;border:1px solid #ffffff30;border-radius:10px;padding:8px 10px;min-height:38px}
+.select option{color:#111}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font:700 14px var(--body);border-radius:10px;padding:8px 14px;cursor:pointer;border:1px solid transparent;line-height:1.2;min-height:38px;text-decoration:none;white-space:nowrap}
+.btn-primary{background:var(--pink);color:#fff}
+.btn-primary:hover{filter:brightness(1.06)}
+.btn-green{background:var(--pine);color:#fff}
+.btn-green:hover{filter:brightness(1.08)}
+.btn-outline{background:#fff;color:var(--ink);border-color:#d8d0e6}
+.btn-outline:hover{border-color:var(--ink)}
+.btn-danger{background:#b3261e;color:#fff}
+.btn-quiet{background:transparent;color:var(--soft)}
+.btn-quiet:hover{color:var(--ink);background:#f1ecf8}
+.btn-block{width:100%}
+.btn-sm{min-height:32px;padding:5px 10px;font-size:13px;border-radius:8px}
+.overview{background:var(--paper);color:var(--ink);border-radius:16px;overflow-x:auto;margin:18px 0 4px}
+.overview table{width:100%;border-collapse:collapse;font-size:15px}
+.overview th,.overview td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+.overview th{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--soft)}
+.overview td.r,.overview th.r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.overview tfoot td{font-weight:800;border-bottom:0}
+.overview .who{font-weight:800}
+.overview .co{color:var(--soft);font-size:14px}
+@media (max-width:640px){.stats{grid-template-columns:1fr 1fr}.stats .stat:last-child{grid-column:1/-1}}
+@media (max-width:440px){.seg{width:100%;justify-content:space-between}.seg button{padding:7px 8px;font-size:13px;gap:4px}.tools{width:100%}.tools .select{flex:1}}
 .updated{font-size:13px;color:#a9a2d6}
 button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 
@@ -91,10 +121,6 @@ h2{font-family:var(--display);font-weight:600;font-size:24px;margin:28px 0 2px}
 @media (prefers-reduced-motion:no-preference){.hbtn:not([disabled]):active svg{transform:scale(1.25);transition:transform .1s}}
 .note{display:flex;gap:6px}
 .note input,.field input,.field textarea{flex:1;min-width:0;font:600 15px var(--body);border:2px solid var(--line);border-radius:10px;padding:7px 10px;color:var(--ink);background:#fff}
-.small-btn{font:800 14px var(--body);border:0;border-radius:10px;padding:8px 12px;cursor:pointer;background:var(--ink);color:#fff}
-.small-btn.green{background:var(--pine)}
-.small-btn.ghost{background:transparent;color:var(--soft);text-decoration:underline;padding:6px 4px}
-.small-btn.red{background:#b3261e}
 .notetext{font-size:14px;background:#fff1f7;border-radius:8px;padding:6px 10px;color:#7a1d4b;font-weight:700}
 .claim{border-top:1px dashed var(--line);padding-top:10px;display:grid;gap:8px}
 .row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
@@ -103,7 +129,7 @@ h2{font-family:var(--display);font-weight:600;font-size:24px;margin:28px 0 2px}
 .partners{font-size:14px;color:#4a4467}
 .confirm{background:#fff3f3;border:1px solid #f3c2c2;border-radius:10px;padding:8px 10px;font-size:14px;display:grid;gap:6px}
 .links{display:flex;gap:12px;flex-wrap:wrap;font-size:14px}
-.links a{color:#4b3bb5;font-weight:700}
+.links{gap:6px}
 .cardfoot{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
 
 details.removed{margin-top:26px}
@@ -125,8 +151,6 @@ details.removed summary{cursor:pointer;font-family:var(--display);font-size:20px
 .toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--paper);color:var(--ink);font-weight:800;border-radius:14px;padding:12px 18px;box-shadow:0 8px 24px #0006;z-index:30;max-width:min(92vw,520px)}
 .toast[hidden]{display:none}
 .toast .undo{color:#4b3bb5}
-.copybox{width:100%;min-height:150px;font:14px/1.4 var(--body);border-radius:12px;padding:10px;margin-top:8px}
-.copybox[hidden]{display:none}
 footer{margin-top:36px;color:#9d97c6;font-size:13px;max-width:72ch}
 .lock{max-width:520px;margin:12vh auto;background:var(--paper);color:var(--ink);border-radius:20px;padding:24px;display:grid;gap:10px}
 @media (max-width:440px){.grid{grid-template-columns:1fr}}
@@ -143,7 +167,6 @@ footer{margin-top:36px;color:#9d97c6;font-size:13px;max-width:72ch}
     <div class="notice" id="notice" hidden></div>
   </header>
   <div class="bar" id="bar" hidden></div>
-  <textarea class="copybox" id="copyBox" hidden readonly aria-label="Laisvų dovanų sąrašas kopijavimui"></textarea>
   <main id="main"></main>
   <footer id="footer"></footer>
 </div>
@@ -257,7 +280,7 @@ function localApi(){
 const api = REMOTE ? remoteApi() : localApi();
 
 /* ---------- state ---------- */
-const S = {role: null, title: "", items: [], claims: {}, filter: "all", sortHearts: false, me: store.get("wl-name", ""),
+const S = {role: null, title: "", items: [], claims: {}, filter: "all", sort: "list", me: store.get("wl-name", ""),
   confirm: null, loadedAt: null, pendingRender: false};
 const $ = id => document.getElementById(id);
 
@@ -380,10 +403,10 @@ function priceLine(item){
 function links(item){
   const l = el("div", {class: "links"});
   const u = safeUrl(item.link);
-  if (u) l.append(el("a", {href: u, target: "_blank", rel: "noopener"}, "Parduotuvė ↗"));
+  if (u) l.append(el("a", {class: "btn btn-outline btn-sm", href: u, target: "_blank", rel: "noopener"}, "Parduotuvė ↗"));
   if (item.search) {
-    l.append(el("a", {href: "https://www.prisjakt.no/search?search=" + encodeURIComponent(item.search), target: "_blank", rel: "noopener"}, "Prisjakt ↗"));
-    l.append(el("a", {href: "https://www.google.com/search?tbm=shop&q=" + encodeURIComponent(item.search), target: "_blank", rel: "noopener"}, "Google ↗"));
+    l.append(el("a", {href: "https://www.prisjakt.no/search?search=" + encodeURIComponent(item.search), target: "_blank", rel: "noopener", class: "btn btn-outline btn-sm"}, "Prisjakt ↗"));
+    l.append(el("a", {href: "https://www.google.com/search?tbm=shop&q=" + encodeURIComponent(item.search), target: "_blank", rel: "noopener", class: "btn btn-outline btn-sm"}, "Google ↗"));
   }
   return l.childNodes.length ? l : null;
 }
@@ -391,7 +414,7 @@ function claimBlock(item){
   const c = S.claims[item.id];
   const w = el("div", {class: "claim"});
   if (!c) {
-    w.append(el("div", {class: "row"}, el("button", {type: "button", class: "small-btn green", onclick: () => claim(item)}, "Aš perku")));
+    w.append(el("div", {class: "row"}, el("button", {type: "button", class: "btn btn-green btn-block", onclick: () => claim(item)}, "✓ Aš perku")));
     return w;
   }
   const mine = c.buyer_device === deviceId;
@@ -400,18 +423,18 @@ function claimBlock(item){
   w.append(el("div", {class: "taken" + (mine ? "" : " other")}, mine ? "Jūs perkate šią dovaną" : "Perka: " + c.buyer));
   if (partners.length) w.append(el("div", {class: "partners"}, "Prisideda: " + partners.join(", ")));
   const row = el("div", {class: "row"});
-  if (mine) row.append(el("button", {type: "button", class: "small-btn ghost", onclick: () => unclaim(item, false)}, "Atšaukti"));
+  if (mine) row.append(el("button", {type: "button", class: "btn btn-outline btn-sm", onclick: () => unclaim(item, false)}, "Atšaukti rezervaciją"));
   else {
-    row.append(el("button", {type: "button", class: "small-btn", onclick: () => join(item, iJoined)}, iJoined ? "Nebeprisidėti" : "Prisidėti (susidėti)"));
-    row.append(el("button", {type: "button", class: "small-btn ghost", onclick: () => { S.confirm = item.id; render(); }}, "Atlaisvinti"));
+    row.append(el("button", {type: "button", class: "btn btn-outline btn-sm", onclick: () => join(item, iJoined)}, iJoined ? "Nebeprisidėti" : "+ Prisidėti prie dovanos"));
+    row.append(el("button", {type: "button", class: "btn btn-quiet btn-sm", onclick: () => { S.confirm = item.id; render(); }}, "Atlaisvinti"));
   }
   w.append(row);
   if (S.confirm === item.id && !mine) {
     w.append(el("div", {class: "confirm"},
       el("span", {}, "Tikrai atlaisvinti? " + c.buyer + " pažymėjo, kad perka."),
       el("div", {class: "row"},
-        el("button", {type: "button", class: "small-btn red", onclick: () => unclaim(item, true)}, "Taip, atlaisvinti"),
-        el("button", {type: "button", class: "small-btn ghost", onclick: () => { S.confirm = null; render(); }}, "Ne"))));
+        el("button", {type: "button", class: "btn btn-danger", onclick: () => unclaim(item, true)}, "Taip, atlaisvinti"),
+        el("button", {type: "button", class: "btn btn-quiet", onclick: () => { S.confirm = null; render(); }}, "Ne"))));
   }
   return w;
 }
@@ -438,7 +461,7 @@ function card(item){
     if (adult) { if (item.kid_note) b.append(el("div", {class: "notetext"}, "Isabelle parašė: " + item.kid_note)); }
     else {
       const input = el("input", {id: "note-" + item.id, type: "text", maxlength: "120", placeholder: "Parašyk čia", value: item.kid_note || "", "aria-label": "Tavo pastaba"});
-      const btn = el("button", {type: "button", class: "small-btn", onclick: () => setNote(item, input.value.trim())}, "Išsaugoti");
+      const btn = el("button", {type: "button", class: "btn btn-outline", onclick: () => setNote(item, input.value.trim())}, "Išsaugoti");
       input.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); btn.click(); } });
       b.append(el("div", {class: "note"}, input, btn));
     }
@@ -449,10 +472,10 @@ function card(item){
     b.append(claimBlock(item));
     const foot = el("div", {class: "cardfoot"});
     const l = links(item); foot.append(l || el("span"));
-    foot.append(el("button", {type: "button", class: "small-btn ghost", onclick: () => editForm(item)}, "Redaguoti"));
+    foot.append(el("button", {type: "button", class: "btn btn-quiet btn-sm", onclick: () => editForm(item)}, "✎ Redaguoti"));
     b.append(foot);
   } else {
-    b.append(el("div", {class: "row"}, el("button", {type: "button", class: "small-btn ghost", onclick: () => setRemoved(item, true)}, "Pašalinti iš sąrašo")));
+    b.append(el("div", {class: "row"}, el("button", {type: "button", class: "btn btn-quiet btn-sm", onclick: () => setRemoved(item, true)}, "✕ Pašalinti iš sąrašo")));
   }
   card.append(b);
   return card;
@@ -479,8 +502,8 @@ function askName(then){
     f,
     names.length ? el("div", {class: "namechips"}, ...names.map(n => el("button", {type: "button", onclick: () => { $("nameInput").value = n; }}, n))) : null,
     el("div", {class: "actions"},
-      el("button", {type: "button", class: "small-btn ghost", onclick: closeModal}, "Atšaukti"),
-      el("button", {type: "button", class: "small-btn green", onclick: save}, "Išsaugoti")));
+      el("button", {type: "button", class: "btn btn-quiet", onclick: closeModal}, "Atšaukti"),
+      el("button", {type: "button", class: "btn btn-green", onclick: save}, "Išsaugoti")));
 }
 function kidAddForm(){
   const save = async () => {
@@ -493,15 +516,15 @@ function kidAddForm(){
     field("Daugiau informacijos (nebūtina)", "kText", "", {area: true, max: "200"}),
     field("Nuoroda (nebūtina)", "kLink", "", {max: "500", ph: "https://..."}),
     el("div", {class: "actions"},
-      el("button", {type: "button", class: "small-btn ghost", onclick: closeModal}, "Atšaukti"),
-      el("button", {type: "button", class: "small-btn green", onclick: save}, "Pridėti")));
+      el("button", {type: "button", class: "btn btn-quiet", onclick: closeModal}, "Atšaukti"),
+      el("button", {type: "button", class: "btn btn-green", onclick: save}, "Pridėti")));
 }
 function editForm(item){
   const isNew = !item;
   item = item || {};
   let confirmDel = false;
   const secret = el("input", {type: "checkbox", id: "fSecret"}); secret.checked = !!item.secret;
-  const del = el("button", {type: "button", class: "small-btn red", onclick: async () => {
+  const del = el("button", {type: "button", class: "btn btn-danger", onclick: async () => {
     if (!confirmDel) { confirmDel = true; del.textContent = "Tikrai ištrinti?"; return; }
     closeModal(); await act(api.remove(item.id), "Ištrinta.");
   }}, "Ištrinti");
@@ -526,8 +549,8 @@ function editForm(item){
     el("label", {class: "check", for: "fSecret"}, secret, "Slapta – Isabelle šios dovanos nemato"),
     el("div", {class: "actions"},
       isNew ? null : del,
-      el("button", {type: "button", class: "small-btn ghost", onclick: closeModal}, "Atšaukti"),
-      el("button", {type: "button", class: "small-btn green", onclick: save}, "Išsaugoti")));
+      el("button", {type: "button", class: "btn btn-quiet", onclick: closeModal}, "Atšaukti"),
+      el("button", {type: "button", class: "btn btn-green", onclick: save}, "Išsaugoti")));
 }
 
 /* ---------- render ---------- */
@@ -551,28 +574,38 @@ function render(){
     el("button", {type: "button", class: "linkbtn", onclick: () => askName()}, S.me ? "Pakeisti" : "Įrašyti vardą"));
 
   const items = S.items.slice();
-  if (adult && S.sortHearts) items.sort((a, b) => (b.hearts || 0) - (a.hearts || 0));
+  if (adult && S.sort === "hearts") items.sort((a, b) => (b.hearts || 0) - (a.hearts || 0));
+  if (adult && S.sort === "price") items.sort((a, b) => (b.price_nok || 0) - (a.price_nok || 0));
 
   // summary + filters
   const bar = $("bar"); bar.hidden = false;
   if (adult) {
+    const visible = S.items.filter(i => !i.removed_by_kid);
     const active = S.items.filter(i => !i.removed_by_kid);
-    const taken = active.filter(i => S.claims[i.id]);
-    const freeNok = active.filter(i => !S.claims[i.id]).reduce((s, i) => s + (i.price_nok || 0), 0);
-    const mineItems = S.items.filter(i => { const c = S.claims[i.id]; return c && (c.buyer_device === deviceId || (S.me && (c.partners || []).includes(S.me))); });
-    const mineNok = mineItems.reduce((s, i) => s + (i.price_nok || 0), 0);
-    const fbtn = (key, label) => el("button", {type: "button", class: "btn", "aria-pressed": String(S.filter === key), onclick: () => { S.filter = key; render(); }}, label);
+    const taken = visible.filter(i => S.claims[i.id]);
+    const free = active.filter(i => !S.claims[i.id]);
+    const mineItems = visible.filter(isMine);
+    const sum = list => list.reduce((s, i) => s + (i.price_nok || 0), 0);
+    const stat = (k, v, small) => el("div", {class: "stat"}, el("div", {class: "k"}, k), el("div", {class: "v"}, v, small ? el("small", {}, " " + small) : null));
+    const tab = (key, label, n) => el("button", {type: "button", "aria-pressed": String(S.filter === key), onclick: () => { S.filter = key; render(); }}, label, el("span", {class: "n"}, String(n)));
+    const sortSel = el("select", {class: "select", id: "sortSel", "aria-label": "Rikiavimas"},
+      el("option", {value: "list"}, "Rikiuoti: kaip sąraše"), el("option", {value: "hearts"}, "Rikiuoti: pagal širdeles"), el("option", {value: "price"}, "Rikiuoti: pagal kainą"));
+    sortSel.value = S.sort || "list";
+    sortSel.addEventListener("change", () => { S.sort = sortSel.value; render(); });
     bar.replaceChildren(
-      el("span", {class: "chip"}, "Užimta " + taken.length + " iš " + active.length),
-      el("span", {class: "chip free"}, "Laisva ~" + fmt(freeNok) + " kr"),
-      el("span", {class: "chip mine"}, "Mano: " + mineItems.length + " · ~" + fmt(mineNok) + " kr"),
-      fbtn("all", "Visos"), fbtn("free", "Laisvos"), fbtn("mine", "Mano"),
-      el("button", {type: "button", class: "btn", "aria-pressed": String(S.sortHearts), onclick: () => { S.sortHearts = !S.sortHearts; render(); }}, "Pagal širdeles"),
-      el("button", {type: "button", class: "btn primary", onclick: () => editForm(null)}, "+ Pridėti dovaną"),
-      el("button", {type: "button", class: "btn", onclick: copyFree}, "Kopijuoti laisvas"),
+      el("div", {class: "stats"},
+        stat("Užimta", taken.length + " / " + visible.length),
+        stat("Laisvų dovanų vertė", "~" + fmt(sum(free)) + " kr"),
+        stat("Jūs perkate", String(mineItems.length), "· ~" + fmt(sum(mineItems)) + " kr")),
+      el("div", {class: "toolbar"},
+        el("div", {class: "seg", role: "group", "aria-label": "Rodyti"},
+          tab("all", "Visos", visible.length), tab("free", "Laisvos", free.length), tab("taken", "Užimtos", taken.length), tab("mine", "Mano", mineItems.length)),
+        el("div", {class: "tools"},
+          sortSel,
+          el("button", {type: "button", class: "btn btn-primary", onclick: () => editForm(null)}, "+ Pridėti dovaną"))),
       S.loadedAt ? el("span", {class: "updated"}, "Atnaujinta " + S.loadedAt.toLocaleTimeString("lt-LT", {hour: "2-digit", minute: "2-digit"})) : null);
   } else {
-    bar.replaceChildren(el("button", {type: "button", class: "btn primary", onclick: kidAddForm}, "+ Pridėti norą"));
+    bar.replaceChildren(el("div", {class: "toolbar"}, el("button", {type: "button", class: "btn btn-primary", onclick: kidAddForm}, "+ Pridėti norą")));
   }
 
   const main = $("main"); main.replaceChildren();
@@ -580,11 +613,13 @@ function render(){
   if (adult) {
     const keep = i => S.filter === "all" ? true
       : S.filter === "free" ? !S.claims[i.id] && !i.removed_by_kid
-      : (S.claims[i.id] && (S.claims[i.id].buyer_device === deviceId || (S.me && (S.claims[i.id].partners || []).includes(S.me))));
-    // Removed wishes vanish, unless someone already reserved them: then the buyer still sees the card, tagged.
-    const shown = i => !i.removed_by_kid || S.claims[i.id];
+      : S.filter === "taken" ? !!S.claims[i.id]
+      : isMine(i);
+    // Removed wishes vanish from the cards for everyone; a reservation on one still shows in the "Užimtos" table.
+    const shown = i => !i.removed_by_kid;
     const own = items.filter(i => i.added_by === "kid" && shown(i) && keep(i));
     const fam = items.filter(i => i.added_by !== "kid" && shown(i) && keep(i));
+    if (S.filter === "taken" || S.filter === "mine") main.append(overview(items.filter(i => S.claims[i.id] && (S.filter === "taken" || isMine(i)))));
     main.append(el("h2", {}, "Isabelle norai"), el("p", {class: "sub"}, "Numeriai tokie patys kaip jos ranka rašytame sąraše."),
       own.length ? grid(own) : el("p", {class: "empty"}, "Nieko nerasta."));
     main.append(el("h2", {}, "Šeimos pasiūlymai"), el("p", {class: "sub"}, "Pažymėti „Slapta“ – Isabelle nematomi. Kitus ji mato ir gali įvertinti."),
@@ -596,12 +631,23 @@ function render(){
     if (fam.length) main.append(el("h2", {}, "Šeimos pasiūlymai"), el("p", {class: "sub"}, "Ar nori ir šitų? Duok širdelių arba pašalink."), grid(fam));
   }
 }
-async function copyFree(){
-  const free = S.items.filter(i => !i.removed_by_kid && !S.claims[i.id]);
-  const text = "Laisvos dovanos Isabelle:\n" + free.map(i => "- " + (i.num ? i.num + ". " : "") + i.title + (i.price_nok != null ? " (~" + fmt(i.price_nok) + " kr)" : "")).join("\n") + "\n\n" + location.href;
-  const box = $("copyBox"); box.value = text;
-  try { await navigator.clipboard.writeText(text); box.hidden = true; toast("Nukopijuota – įklijuokite į šeimos pokalbį."); }
-  catch(e) { box.hidden = false; box.focus(); box.select(); }
+function isMine(i){ const c = S.claims[i.id]; return !!c && (c.buyer_device === deviceId || (!!S.me && (c.partners || []).includes(S.me))); }
+function overview(list){
+  const box = el("div", {class: "overview"});
+  if (!list.length) { box.append(el("p", {class: "empty", style: "padding:14px;margin:0;color:var(--soft)"}, "Kol kas niekas nepasirinkta.")); return box; }
+  const body = el("tbody");
+  list.forEach(i => { const c = S.claims[i.id];
+    body.append(el("tr", {},
+      el("td", {}, (i.num ? i.num + ". " : "") + i.title, i.removed_by_kid ? el("div", {class: "co"}, "Isabelle pašalino iš sąrašo") : null),
+      el("td", {}, el("span", {class: "who"}, c.buyer_device === deviceId ? c.buyer + " (jūs)" : c.buyer),
+        (c.partners || []).length ? el("div", {class: "co"}, "+ " + c.partners.join(", ")) : null),
+      el("td", {class: "r"}, i.price_nok != null ? "~" + fmt(i.price_nok) + " kr" : "–"))); });
+  const total = list.reduce((s, i) => s + (i.price_nok || 0), 0);
+  box.append(el("table", {},
+    el("thead", {}, el("tr", {}, el("th", {}, "Dovana"), el("th", {}, "Kas perka"), el("th", {class: "r"}, "Kaina"))),
+    body,
+    el("tfoot", {}, el("tr", {}, el("td", {}, "Iš viso: " + list.length), el("td", {}), el("td", {class: "r"}, "~" + fmt(total) + " kr")))));
+  return box;
 }
 
 countdown();
