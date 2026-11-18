@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Kalėdų norų sąrašas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Layout: winter-night page, paper cards in a responsive grid; kid and adult links share the cards. */
+:root{
+  --night:#1c1937; --plum:#2a2454; --paper:#fffaf2; --ink:#26213f; --soft:#6d6790;
+  --pink:#ff4f9a; --gold:#ffc84a; --pine:#1f7a58; --line:#e9e1d4;
+  --display:"Fredoka","Trebuchet MS",system-ui,sans-serif;
+  --body:"Nunito","Segoe UI",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--night);
+  background-image:
+    radial-gradient(2px 2px at 8% 12%, #fff8 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 22% 30%, #fff6 50%, transparent 51%),
+    radial-gradient(2px 2px at 47% 8%, #fff7 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 66% 22%, #fff5 50%, transparent 51%),
+    radial-gradient(2px 2px at 84% 10%, #fff8 50%, transparent 51%),
+    linear-gradient(180deg, var(--plum) 0%, var(--night) 420px);
+  background-repeat:no-repeat;
+  color:#f3efff; font-family:var(--body); font-size:16px; line-height:1.5; min-height:100%;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 16px 72px}
+header{display:grid;gap:12px;margin-bottom:18px}
+.eyebrow{font-family:var(--display);font-weight:600;color:var(--gold);letter-spacing:.04em;font-size:15px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(32px,7vw,54px);line-height:1.05;margin:0;text-wrap:balance}
+h1 .heart{color:var(--pink)}
+.countdown{display:inline-flex;align-items:baseline;gap:8px;background:#ffffff14;border:1px solid #ffffff22;border-radius:999px;padding:6px 14px;width:fit-content;font-weight:700}
+.countdown b{font-family:var(--display);font-size:22px;color:var(--gold);font-variant-numeric:tabular-nums}
+.intro{max-width:64ch;color:#dcd6fb;margin:0}
+.notice{background:#ffc84a22;border:1px solid #ffc84a66;color:#ffe9b0;border-radius:12px;padding:10px 14px;font-size:14px;max-width:72ch}
+.notice[hidden]{display:none}
+.me{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-weight:700}
+.me b{color:var(--gold)}
+.linkbtn{background:none;border:0;color:#cfc8ff;text-decoration:underline;font:700 15px var(--body);cursor:pointer;padding:2px}
+
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:4px 0 8px}
+.chip{background:var(--paper);color:var(--ink);border-radius:999px;padding:6px 14px;font-weight:800;font-variant-numeric:tabular-nums}
+.chip.free{background:#c9f2df;color:#0d4a33}
+.chip.mine{background:#ffe0ef;color:#7a1d4b}
+.btn{font:700 15px var(--body);border-radius:10px;border:1px solid #ffffff33;background:#ffffff14;color:#fff;padding:8px 14px;cursor:pointer}
+.btn:hover{background:#ffffff24}
+.btn[aria-pressed="true"]{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+.btn.primary{background:var(--pink);border-color:var(--pink)}
+.updated{font-size:13px;color:#a9a2d6}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+
+h2{font-family:var(--display);font-weight:600;font-size:24px;margin:28px 0 2px}
+.sub{margin:0 0 14px;font-size:15px;color:#b9b3e0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.empty{color:#b9b3e0;font-style:italic}
+
+.card{background:var(--paper);color:var(--ink);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;position:relative;box-shadow:0 6px 0 #0000002a}
+.card .pic{background:#fff;aspect-ratio:4/3;display:grid;place-items:center;border-bottom:1px solid var(--line);overflow:hidden}
+.card .pic img{max-width:88%;max-height:88%;object-fit:contain;display:block}
+.card .pic .glyph{font-size:64px;line-height:1}
+.card .pic.tint{background:linear-gradient(135deg,#ffe3ef,#fff3d6)}
+.card.dim .pic{filter:grayscale(.6);opacity:.65}
+.num{position:absolute;top:10px;left:10px;font-family:var(--display);font-weight:700;background:var(--pink);color:#fff;border-radius:999px;min-width:34px;height:34px;display:grid;place-items:center;padding:0 8px;font-size:17px;box-shadow:0 2px 0 #0003}
+.num.fam{background:var(--pine)}
+.ribbon{position:absolute;top:12px;right:-36px;transform:rotate(35deg);background:var(--pine);color:#fff;font:800 12px var(--body);padding:4px 42px;letter-spacing:.06em}
+.body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.title{font-family:var(--display);font-weight:600;font-size:19px;line-height:1.2;margin:0}
+.desc{margin:0;color:#4a4467;font-size:15px}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-size:12px;font-weight:800;border-radius:999px;padding:2px 9px;background:#efe9ff;color:#4b3bb5}
+.tag.secret{background:#26213f;color:#fff}
+.tag.removed{background:#ffe1e1;color:#8a1d1d}
+.tag.kid{background:#ffe0ef;color:#7a1d4b}
+.price{font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
+.price small{font-weight:600;color:var(--soft)}
+.hearts{display:flex;gap:4px;align-items:center;margin-top:auto;flex-wrap:wrap}
+.hearts .lbl{font-size:13px;color:var(--soft);margin-right:6px;font-weight:700}
+.hbtn{background:none;border:0;padding:2px;cursor:pointer;line-height:0;border-radius:8px}
+.hbtn svg{width:30px;height:30px}
+.hbtn[disabled]{cursor:default}
+.hearts.small .hbtn svg{width:20px;height:20px}
+.h-on{fill:var(--pink);stroke:var(--pink)}
+.h-off{fill:none;stroke:#cfc6db}
+@media (prefers-reduced-motion:no-preference){.hbtn:not([disabled]):active svg{transform:scale(1.25);transition:transform .1s}}
+.note{display:flex;gap:6px}
+.note input,.field input,.field textarea{flex:1;min-width:0;font:600 15px var(--body);border:2px solid var(--line);border-radius:10px;padding:7px 10px;color:var(--ink);background:#fff}
+.small-btn{font:800 14px var(--body);border:0;border-radius:10px;padding:8px 12px;cursor:pointer;background:var(--ink);color:#fff}
+.small-btn.green{background:var(--pine)}
+.small-btn.ghost{background:transparent;color:var(--soft);text-decoration:underline;padding:6px 4px}
+.small-btn.red{background:#b3261e}
+.notetext{font-size:14px;background:#fff1f7;border-radius:8px;padding:6px 10px;color:#7a1d4b;font-weight:700}
+.claim{border-top:1px dashed var(--line);padding-top:10px;display:grid;gap:8px}
+.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.taken{font-weight:800;color:#0d4a33;background:#c9f2df;border-radius:10px;padding:7px 10px}
+.taken.other{background:#ece8f6;color:var(--ink)}
+.partners{font-size:14px;color:#4a4467}
+.confirm{background:#fff3f3;border:1px solid #f3c2c2;border-radius:10px;padding:8px 10px;font-size:14px;display:grid;gap:6px}
+.links{display:flex;gap:12px;flex-wrap:wrap;font-size:14px}
+.links a{color:#4b3bb5;font-weight:700}
+.cardfoot{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+
+details.removed{margin-top:26px}
+details.removed summary{cursor:pointer;font-family:var(--display);font-size:20px}
+.mini{display:flex;gap:10px;align-items:center;background:#ffffff10;border-radius:12px;padding:8px 12px;margin-top:8px}
+.mini span{flex:1}
+
+.modal{position:fixed;inset:0;background:#120f26e6;display:grid;place-items:center;padding:16px;z-index:20}
+.modal[hidden]{display:none}
+.sheet{background:var(--paper);color:var(--ink);border-radius:20px;padding:22px;width:min(520px,100%);max-height:92vh;overflow:auto;display:grid;gap:12px}
+.sheet h3{font-family:var(--display);margin:0;font-size:24px}
+.field{display:grid;gap:4px;font-weight:700;font-size:14px}
+.field textarea{min-height:70px;resize:vertical}
+.check{display:flex;gap:8px;align-items:center;font-weight:700}
+.namechips{display:flex;gap:6px;flex-wrap:wrap}
+.namechips button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:4px 12px;font:700 14px var(--body);cursor:pointer;color:var(--ink)}
+.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--paper);color:var(--ink);font-weight:800;border-radius:14px;padding:12px 18px;box-shadow:0 8px 24px #0006;z-index:30;max-width:min(92vw,520px)}
+.toast[hidden]{display:none}
+.copybox{width:100%;min-height:150px;font:14px/1.4 var(--body);border-radius:12px;padding:10px;margin-top:8px}
+.copybox[hidden]{display:none}
+footer{margin-top:36px;color:#9d97c6;font-size:13px;max-width:72ch}
+.lock{max-width:520px;margin:12vh auto;background:var(--paper);color:var(--ink);border-radius:20px;padding:24px;display:grid;gap:10px}
+@media (max-width:440px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app">
+  <header>
+    <div class="eyebrow" id="eyebrow">Kalėdų norų sąrašas</div>
+    <h1 id="title">Isabelle <span class="heart">♥</span></h1>
+    <div class="countdown"><b id="days"></b> <span id="daysLabel"></span></div>
+    <div class="me" id="meBar" hidden></div>
+    <p class="intro" id="intro"></p>
+    <div class="notice" id="notice" hidden></div>
+  </header>
+  <div class="bar" id="bar" hidden></div>
+  <textarea class="copybox" id="copyBox" hidden readonly aria-label="Laisvų dovanų sąrašas kopijavimui"></textarea>
+  <main id="main"></main>
+  <footer id="footer"></footer>
+</div>
+
+<div class="modal" id="modal" hidden role="dialog" aria-modal="true"><div class="sheet" id="sheet"></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+/* ===== Settings: fill these in after creating the Supabase database (see README) ===== */
+const CONFIG = {
+  supabaseUrl: "https://euizeyxkyjuisjdleasl.supabase.co",        // e.g. "https://abcd1234.supabase.co"
+  supabaseKey: "sb_publishable_SiqfSGEonJ2QrXi4L3X3nA_GlRBX5Ap",        // the "anon" / publishable key (safe to publish)
+  listId: "isabelle",
+  eurRate: 11.6           // NOK per 1 EUR, only for the approximate € price
+};
+/* ===================================================================================== */
+
+const SEED = /*SEED*/null;
+const DEMO_KEYS = {kid: "demo-vaikas", adult: "demo-suaugusieji"};
+const params = new URLSearchParams(location.search);
+const LIST = params.get("sarasas") || CONFIG.listId;
+const REMOTE = !!(CONFIG.supabaseUrl && CONFIG.supabaseKey);
+const KEY = params.get("k") || (REMOTE ? "" : DEMO_KEYS.adult);
+
+const store = {
+  get(k, d){ try { const v = localStorage.getItem(k); return v === null ? d : v; } catch(e){ return d; } },
+  set(k, v){ try { localStorage.setItem(k, v); } catch(e){} }
+};
+let deviceId = store.get("wl-device", "");
+if (!deviceId) { deviceId = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(36).slice(2)); store.set("wl-device", deviceId); }
+
+/* ---------- data access: Supabase functions, or a local demo with the same behaviour ---------- */
+function remoteApi(){
+  async function rpc(fn, args){
+    const headers = {"apikey": CONFIG.supabaseKey, "Content-Type": "application/json"};
+    if (CONFIG.supabaseKey.startsWith("eyJ")) headers.Authorization = "Bearer " + CONFIG.supabaseKey;
+    const res = await fetch(CONFIG.supabaseUrl.replace(/\/$/, "") + "/rest/v1/rpc/" + fn, {
+      method: "POST", headers, body: JSON.stringify(Object.assign({p_list: LIST, p_key: KEY}, args))
+    });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    return res.json();
+  }
+  return {
+    load: () => rpc("wl_get", {}),
+    kidSet: (id, p) => rpc("wl_kid_set", {p_item: id, p_hearts: p.hearts ?? null, p_note: p.note ?? null, p_removed: p.removed ?? null}),
+    add: item => rpc("wl_add_item", {p_item: item}),
+    update: (id, item) => rpc("wl_update_item", {p_item_id: id, p_item: item}),
+    remove: id => rpc("wl_delete_item", {p_item: id}),
+    claim: (id, name) => rpc("wl_claim", {p_item: id, p_buyer: name, p_device: deviceId}),
+    unclaim: (id, force) => rpc("wl_unclaim", {p_item: id, p_device: deviceId, p_force: !!force}),
+    join: (id, name, leave) => rpc("wl_join", {p_item: id, p_name: name, p_leave: !!leave})
+  };
+}
+function localApi(){
+  const K = "wl-demo-" + LIST;
+  const uid = () => (crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2));
+  function db(){
+    let d = null; try { d = JSON.parse(store.get(K, "null")); } catch(e){}
+    if (!d) {
+      d = {title: SEED.list.title, items: SEED.items.map((it, i) => ({
+        id: uid(), num: it.num ?? null, title: it.title, kid_text: it.kid_text || "", adult_text: it.adult_text || "",
+        image: it.image || (it.glyph ? "glyph:" + it.glyph : ""), price_nok: it.price_nok ?? null, price_note: it.price_note || "",
+        link: it.link || "", search: it.search || "", secret: !!it.secret, added_by: it.added_by || "family",
+        hearts: 0, kid_note: "", removed_by_kid: false, ask_note: !!it.ask_note, sort: i + 1, created_at: new Date().toISOString()
+      })), claims: []};
+      save(d);
+    }
+    return d;
+  }
+  function save(d){ store.set(K, JSON.stringify(d)); }
+  function role(){ return KEY === DEMO_KEYS.kid ? "kid" : KEY === DEMO_KEYS.adult ? "adult" : null; }
+  const ok = x => Promise.resolve(Object.assign({ok: true}, x || {}));
+  const no = (e, x) => Promise.resolve(Object.assign({ok: false, error: e}, x || {}));
+  return {
+    load(){
+      const r = role(); if (!r) return Promise.resolve({error: "bad_key"});
+      const d = db();
+      const items = d.items.filter(i => r === "adult" || !i.secret).map(i => r === "adult" ? i : Object.assign({}, i, {adult_text: null, price_nok: null, price_note: null, search: null}));
+      return Promise.resolve({role: r, title: d.title, items, claims: r === "adult" ? d.claims : []});
+    },
+    kidSet(id, p){ const d = db(); const it = d.items.find(i => i.id === id); if (!it) return no("not_found");
+      if (p.hearts != null) it.hearts = Math.max(0, Math.min(3, p.hearts));
+      if (p.note != null) it.kid_note = String(p.note).slice(0, 120);
+      if (p.removed != null) it.removed_by_kid = !!p.removed;
+      save(d); return ok(); },
+    add(item){ const d = db(); const r = role(); if (!item.title) return no("title");
+      const sort = Math.max(0, ...d.items.map(i => i.sort)) + 1;
+      const base = {id: uid(), title: item.title.slice(0, 80), kid_text: item.kid_text || "", link: item.link || "", sort, created_at: new Date().toISOString(),
+        hearts: 0, kid_note: "", removed_by_kid: false, ask_note: false, image: "", adult_text: "", price_nok: null, price_note: "", search: ""};
+      if (r === "kid") Object.assign(base, {num: Math.max(0, ...d.items.map(i => i.num || 0)) + 1, added_by: "kid", secret: false, hearts: item.hearts ?? 3});
+      else Object.assign(base, {num: null, added_by: "family", secret: !!item.secret, adult_text: item.adult_text || "", image: item.image || "",
+        price_nok: /^\d{1,7}$/.test(String(item.price_nok ?? "")) ? Number(item.price_nok) : null, price_note: item.price_note || ""});
+      d.items.push(base); save(d); return ok({id: base.id}); },
+    update(id, item){ if (role() !== "adult") return no("not_adult"); const d = db(); const it = d.items.find(i => i.id === id); if (!it) return no("not_found");
+      for (const k of ["title","kid_text","adult_text","image","price_note","link"]) if (k in item && !(k === "title" && !item.title)) it[k] = item[k];
+      if ("price_nok" in item) it.price_nok = /^\d{1,7}$/.test(String(item.price_nok ?? "")) ? Number(item.price_nok) : null;
+      if ("secret" in item) it.secret = !!item.secret;
+      save(d); return ok(); },
+    remove(id){ if (role() !== "adult") return no("not_adult"); const d = db(); d.items = d.items.filter(i => i.id !== id); d.claims = d.claims.filter(c => c.item_id !== id); save(d); return ok(); },
+    claim(id, name){ if (role() !== "adult") return no("not_adult"); if (!name) return no("name"); const d = db();
+      const c = d.claims.find(c => c.item_id === id); if (c) return no("taken", {buyer: c.buyer});
+      d.claims.push({item_id: id, buyer: name.slice(0, 40), buyer_device: deviceId, partners: [], created_at: new Date().toISOString()}); save(d); return ok(); },
+    unclaim(id, force){ if (role() !== "adult") return no("not_adult"); const d = db(); const c = d.claims.find(c => c.item_id === id); if (!c) return ok();
+      if (c.buyer_device !== deviceId && !force) return no("not_yours", {buyer: c.buyer});
+      d.claims = d.claims.filter(x => x !== c); save(d); return ok(); },
+    join(id, name, leave){ if (role() !== "adult") return no("not_adult"); const d = db(); const c = d.claims.find(c => c.item_id === id); if (!c) return no("not_found");
+      if (leave) c.partners = c.partners.filter(p => p !== name); else if (!c.partners.includes(name) && c.buyer !== name) c.partners.push(name);
+      save(d); return ok(); }
+  };
+}
+const api = REMOTE ? remoteApi() : localApi();
+
+/* ---------- state ---------- */
+const S = {role: null, title: "", items: [], claims: {}, filter: "all", sortHearts: false, me: store.get("wl-name", ""),
+  confirm: null, loadedAt: null, pendingRender: false};
+const $ = id => document.getElementById(id);
+
+function el(tag, attrs = {}, ...kids){
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "class") e.className = v;
+    else if (k === "html") e.innerHTML = v;
+    else if (k.startsWith("on") && typeof v === "function") e.addEventListener(k.slice(2), v);
+    else if (v !== null && v !== undefined && v !== false) e.setAttribute(k, v === true ? "" : v);
+  }
+  for (const k of kids) if (k !== null && k !== undefined && k !== false) e.append(k);
+  return e;
+}
+const HEART = '<svg viewBox="0 0 24 24" aria-hidden="true"><path stroke-width="2" stroke-linejoin="round" d="M12 20.5s-7.5-4.6-9.3-9.3C1.5 8 3.6 4.5 7.2 4.5c2 0 3.6 1.1 4.8 2.8 1.2-1.7 2.8-2.8 4.8-2.8 3.6 0 5.7 3.5 4.5 6.7-1.8 4.7-9.3 9.3-9.3 9.3z"/></svg>';
+const fmt = n => new Intl.NumberFormat("lt-LT").format(Math.round(n));
+const eur = nok => Math.round(nok / CONFIG.eurRate);
+const safeUrl = u => /^https?:\/\//i.test(u || "") ? u : null;
+const safeImg = u => (/^https?:\/\//i.test(u || "") || /^img\/[\w.-]+$/.test(u || "")) ? u : null;
+
+function dayWord(n){
+  const t = n % 10, h = n % 100;
+  if (t === 1 && h !== 11) return "diena";
+  if (t >= 2 && t <= 9 && !(h >= 12 && h <= 19)) return "dienos";
+  return "dienų";
+}
+function countdown(){
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  let t = new Date(now.getFullYear(), 11, 24);
+  if (today > t) t = new Date(now.getFullYear() + 1, 11, 24);
+  const d = Math.round((t - today) / 86400000);
+  $("days").textContent = d === 0 ? "" : String(d);
+  $("daysLabel").textContent = d === 0 ? "Šiandien Kūčios!" : dayWord(d) + " iki Kūčių";
+}
+let toastTimer = null;
+function toast(msg){ const t = $("toast"); t.textContent = msg; t.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => t.hidden = true, 3500); }
+function notice(msg){ $("notice").textContent = msg || ""; $("notice").hidden = !msg; }
+
+/* ---------- loading ---------- */
+async function refresh(){
+  try {
+    const d = await api.load();
+    if (d.error === "bad_key") { lockScreen(); return; }
+    S.role = d.role; S.title = d.title;
+    S.items = d.items || [];
+    S.claims = {}; (d.claims || []).forEach(c => S.claims[c.item_id] = c);
+    S.loadedAt = new Date();
+    if (REMOTE) notice("");
+    scheduleRender();
+  } catch(e) {
+    notice("Nepavyko gauti duomenų. Patikrinkite internetą – bandysime dar kartą.");
+  }
+}
+function scheduleRender(){
+  const a = document.activeElement;
+  const typing = a && (a.tagName === "INPUT" || a.tagName === "TEXTAREA") && !$("modal").contains(a);
+  if (typing || !$("modal").hidden) { S.pendingRender = true; return; }
+  S.pendingRender = false; render();
+}
+document.addEventListener("focusout", () => setTimeout(() => { if (S.pendingRender) scheduleRender(); }, 50));
+setInterval(() => { if (document.visibilityState === "visible") refresh(); }, 15000);
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") refresh(); });
+
+function lockScreen(){
+  $("app").replaceChildren(el("div", {class: "lock"},
+    el("h3", {class: "title"}, "Ši nuoroda neveikia"),
+    el("p", {}, "Nuorodoje trūksta rakto arba jis neteisingas. Paprašykite teisingos nuorodos to, kas jums ją atsiuntė.")));
+}
+
+/* ---------- actions ---------- */
+async function act(promise, okMsg){
+  try {
+    const r = await promise;
+    if (r && r.ok === false) {
+      const m = {taken: (r.buyer || "Kažkas") + " jau spėjo pažymėti šią dovaną. Pasirinkite kitą!",
+        not_yours: "Šią dovaną pažymėjo " + (r.buyer || "kitas žmogus") + ".",
+        name: "Pirmiausia įrašykite savo vardą.", title: "Įrašykite pavadinimą.",
+        not_adult: "Tai gali daryti tik suaugusieji.", bad_key: "Nuoroda neteisinga."};
+      toast(m[r.error] || "Nepavyko. Bandykite dar kartą.");
+    } else if (okMsg) toast(okMsg);
+    await refresh();
+    return r;
+  } catch(e) { toast("Nepavyko išsaugoti. Patikrinkite internetą ir bandykite dar kartą."); }
+}
+function setHearts(item, n){ item.hearts = n; render(); act(api.kidSet(item.id, {hearts: n})); }
+function setNote(item, text){ act(api.kidSet(item.id, {note: text}), "Išsaugota!"); }
+function setRemoved(item, v){ item.removed_by_kid = v; render(); act(api.kidSet(item.id, {removed: v}), v ? "Pašalinta. Gali grąžinti apačioje." : "Grąžinta!"); }
+function claim(item){ if (!S.me) { askName(() => claim(item)); return; } act(api.claim(item.id, S.me), "Puiku! " + item.title + " – jūsų."); }
+function unclaim(item, force){ S.confirm = null; act(api.unclaim(item.id, force), "Dovana vėl laisva."); }
+function join(item, leave){ if (!S.me) { askName(() => join(item, leave)); return; } act(api.join(item.id, S.me, leave), leave ? "Nebeprisidedate." : "Prisidedate prie šios dovanos!"); }
+
+/* ---------- pieces ---------- */
+function pic(item){
+  const img = item.image && !item.image.startsWith("glyph:") ? safeImg(item.image) : null;
+  if (img) return el("div", {class: "pic"}, el("img", {src: img, alt: item.title, loading: "lazy", referrerpolicy: "no-referrer"}));
+  const g = item.image && item.image.startsWith("glyph:") ? item.image.slice(6) : "🎁";
+  return el("div", {class: "pic tint"}, el("span", {class: "glyph", "aria-hidden": "true"}, g));
+}
+function heartsRow(item, interactive){
+  const n = item.hearts || 0;
+  const row = el("div", {class: "hearts" + (interactive ? "" : " small"), role: interactive ? "group" : null, "aria-label": interactive ? "Kaip labai nori?" : null});
+  row.append(el("span", {class: "lbl"}, interactive ? "Kaip labai?" : (n ? "Isabelle:" : "Isabelle dar neįvertino")));
+  if (interactive || n) for (let i = 1; i <= 3; i++) {
+    const on = i <= n;
+    const b = el("button", {type: "button", class: "hbtn", "aria-label": i + (i === 1 ? " širdelė" : " širdelės"), "aria-pressed": String(on), disabled: !interactive,
+      onclick: () => setHearts(item, n === i ? i - 1 : i)});
+    b.innerHTML = HEART; b.querySelector("svg").setAttribute("class", on ? "h-on" : "h-off");
+    row.append(b);
+  }
+  return row;
+}
+function priceLine(item){
+  if (item.price_nok == null && !item.price_note) return null;
+  const p = el("div", {class: "price"});
+  if (item.price_nok != null) p.append("~" + fmt(item.price_nok) + " kr · ~" + fmt(eur(item.price_nok)) + " € ");
+  if (item.price_note) p.append(el("small", {}, item.price_nok != null ? "(" + item.price_note + ")" : item.price_note));
+  return p;
+}
+function links(item){
+  const l = el("div", {class: "links"});
+  const u = safeUrl(item.link);
+  if (u) l.append(el("a", {href: u, target: "_blank", rel: "noopener"}, "Parduotuvė ↗"));
+  if (item.search) {
+    l.append(el("a", {href: "https://www.prisjakt.no/search?search=" + encodeURIComponent(item.search), target: "_blank", rel: "noopener"}, "Prisjakt ↗"));
+    l.append(el("a", {href: "https://www.google.com/search?tbm=shop&q=" + encodeURIComponent(item.search), target: "_blank", rel: "noopener"}, "Google ↗"));
+  }
+  return l.childNodes.length ? l : null;
+}
+function claimBlock(item){
+  const c = S.claims[item.id];
+  const w = el("div", {class: "claim"});
+  if (!c) {
+    w.append(el("div", {class: "row"}, el("button", {type: "button", class: "small-btn green", onclick: () => claim(item)}, "Aš perku")));
+    return w;
+  }
+  const mine = c.buyer_device === deviceId;
+  const partners = (c.partners || []);
+  const iJoined = S.me && partners.includes(S.me);
+  w.append(el("div", {class: "taken" + (mine ? "" : " other")}, mine ? "Jūs perkate šią dovaną" : "Perka: " + c.buyer));
+  if (partners.length) w.append(el("div", {class: "partners"}, "Prisideda: " + partners.join(", ")));
+  const row = el("div", {class: "row"});
+  if (mine) row.append(el("button", {type: "button", class: "small-btn ghost", onclick: () => unclaim(item, false)}, "Atšaukti"));
+  else {
+    row.append(el("button", {type: "button", class: "small-btn", onclick: () => join(item, iJoined)}, iJoined ? "Nebeprisidėti" : "Prisidėti (susidėti)"));
+    row.append(el("button", {type: "button", class: "small-btn ghost", onclick: () => { S.confirm = item.id; render(); }}, "Atlaisvinti"));
+  }
+  w.append(row);
+  if (S.confirm === item.id && !mine) {
+    w.append(el("div", {class: "confirm"},
+      el("span", {}, "Tikrai atlaisvinti? " + c.buyer + " pažymėjo, kad perka."),
+      el("div", {class: "row"},
+        el("button", {type: "button", class: "small-btn red", onclick: () => unclaim(item, true)}, "Taip, atlaisvinti"),
+        el("button", {type: "button", class: "small-btn ghost", onclick: () => { S.confirm = null; render(); }}, "Ne"))));
+  }
+  return w;
+}
+function card(item){
+  const adult = S.role === "adult";
+  const c = S.claims[item.id];
+  const fam = item.added_by !== "kid";
+  const card = el("article", {class: "card" + ((adult && c) || (adult && item.removed_by_kid) ? " dim" : "")});
+  card.append(pic(item));
+  card.append(el("div", {class: "num" + (fam ? " fam" : ""), "aria-label": fam ? "Šeimos pasiūlymas" : "Numeris " + item.num}, fam ? "★" : String(item.num ?? "")));
+  if (adult && c) card.append(el("div", {class: "ribbon", "aria-hidden": "true"}, "UŽIMTA"));
+  const b = el("div", {class: "body"});
+  if (adult) {
+    const tags = el("div", {class: "tags"});
+    if (item.secret) tags.append(el("span", {class: "tag secret"}, "Slapta – Isabelle nemato"));
+    if (item.removed_by_kid) tags.append(el("span", {class: "tag removed"}, "Isabelle pašalino"));
+    if (!item.num && item.added_by === "kid") tags.append(el("span", {class: "tag kid"}, "Pridėjo Isabelle"));
+    if (tags.childNodes.length) b.append(tags);
+  }
+  b.append(el("h3", {class: "title"}, item.title));
+  const text = adult ? (item.adult_text || item.kid_text) : item.kid_text;
+  if (text) b.append(el("p", {class: "desc"}, text));
+  if (item.ask_note || item.kid_note) {
+    if (adult) { if (item.kid_note) b.append(el("div", {class: "notetext"}, "Isabelle parašė: " + item.kid_note)); }
+    else {
+      const input = el("input", {id: "note-" + item.id, type: "text", maxlength: "120", placeholder: "Parašyk čia", value: item.kid_note || "", "aria-label": "Tavo pastaba"});
+      const btn = el("button", {type: "button", class: "small-btn", onclick: () => setNote(item, input.value.trim())}, "Išsaugoti");
+      input.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); btn.click(); } });
+      b.append(el("div", {class: "note"}, input, btn));
+    }
+  }
+  if (adult) { const p = priceLine(item); if (p) b.append(p); }
+  b.append(heartsRow(item, !adult));
+  if (adult) {
+    b.append(claimBlock(item));
+    const foot = el("div", {class: "cardfoot"});
+    const l = links(item); foot.append(l || el("span"));
+    foot.append(el("button", {type: "button", class: "small-btn ghost", onclick: () => editForm(item)}, "Redaguoti"));
+    b.append(foot);
+  } else {
+    b.append(el("div", {class: "row"}, el("button", {type: "button", class: "small-btn ghost", onclick: () => setRemoved(item, true)}, "Pašalinti iš sąrašo")));
+  }
+  card.append(b);
+  return card;
+}
+
+/* ---------- forms ---------- */
+function openModal(...kids){ $("sheet").replaceChildren(...kids); $("modal").hidden = false; const f = $("sheet").querySelector("input,textarea,button"); if (f) f.focus(); }
+function closeModal(){ $("modal").hidden = true; if (S.pendingRender) scheduleRender(); }
+$("modal").addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+$("modal").addEventListener("click", e => { if (e.target === $("modal")) closeModal(); });
+
+function field(label, id, value, opts = {}){
+  const input = opts.area ? el("textarea", {id, maxlength: opts.max || "400"}) : el("input", {id, type: opts.type || "text", maxlength: opts.max || "200", inputmode: opts.inputmode || null, placeholder: opts.ph || null});
+  input.value = value ?? "";
+  return el("label", {class: "field", for: id}, label, input);
+}
+function askName(then){
+  const names = [...new Set(Object.values(S.claims).flatMap(c => [c.buyer, ...(c.partners || [])]))].filter(Boolean);
+  const f = field("Jūsų vardas", "nameInput", S.me, {max: "40", ph: "Pvz., Močiutė"});
+  const save = () => { const v = $("nameInput").value.trim(); if (!v) { $("nameInput").focus(); return; } S.me = v; store.set("wl-name", v); closeModal(); render(); if (then) then(); };
+  f.querySelector("input").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); save(); } });
+  openModal(el("h3", {}, "Kas jūs?"),
+    el("p", {}, "Įrašykite savo vardą, kad kiti matytų, kas ką perka. Šis įrenginys jį prisimins."),
+    f,
+    names.length ? el("div", {class: "namechips"}, ...names.map(n => el("button", {type: "button", onclick: () => { $("nameInput").value = n; }}, n))) : null,
+    el("div", {class: "actions"},
+      el("button", {type: "button", class: "small-btn ghost", onclick: closeModal}, "Atšaukti"),
+      el("button", {type: "button", class: "small-btn green", onclick: save}, "Išsaugoti")));
+}
+function kidAddForm(){
+  const save = async () => {
+    const t = $("kTitle").value.trim(); if (!t) { $("kTitle").focus(); return; }
+    closeModal();
+    await act(api.add({title: t, kid_text: $("kText").value.trim(), link: $("kLink").value.trim(), hearts: 3}), "Pridėta! ♥");
+  };
+  openModal(el("h3", {}, "Naujas noras"),
+    field("Ko norėtum?", "kTitle", "", {max: "80"}),
+    field("Daugiau informacijos (nebūtina)", "kText", "", {area: true, max: "200"}),
+    field("Nuoroda (nebūtina)", "kLink", "", {max: "500", ph: "https://..."}),
+    el("div", {class: "actions"},
+      el("button", {type: "button", class: "small-btn ghost", onclick: closeModal}, "Atšaukti"),
+      el("button", {type: "button", class: "small-btn green", onclick: save}, "Pridėti")));
+}
+function editForm(item){
+  const isNew = !item;
+  item = item || {};
+  let confirmDel = false;
+  const secret = el("input", {type: "checkbox", id: "fSecret"}); secret.checked = !!item.secret;
+  const del = el("button", {type: "button", class: "small-btn red", onclick: async () => {
+    if (!confirmDel) { confirmDel = true; del.textContent = "Tikrai ištrinti?"; return; }
+    closeModal(); await act(api.remove(item.id), "Ištrinta.");
+  }}, "Ištrinti");
+  const save = async () => {
+    const data = {title: $("fTitle").value.trim(), price_nok: $("fPrice").value.replace(/\s/g, ""), price_note: $("fPNote").value.trim(),
+      kid_text: $("fKid").value.trim(), adult_text: $("fAdult").value.trim(), link: $("fLink").value.trim(), image: $("fImg").value.trim(), secret: secret.checked};
+    if (!data.title) { $("fTitle").focus(); return; }
+    if (data.price_nok && !/^\d{1,7}$/.test(data.price_nok)) { $("fPrice").focus(); toast("Kaina – tik skaičius kronomis, pvz., 350."); return; }
+    if (!data.price_nok) data.price_nok = "";
+    if (!isNew && item.image && item.image.startsWith("glyph:") && !data.image) data.image = item.image;
+    closeModal();
+    await act(isNew ? api.add(data) : api.update(item.id, data), isNew ? "Dovana pridėta." : "Išsaugota.");
+  };
+  openModal(el("h3", {}, isNew ? "Nauja dovana" : "Redaguoti dovaną"),
+    field("Pavadinimas", "fTitle", item.title, {max: "80"}),
+    field("Apytikslė kaina, kr", "fPrice", item.price_nok ?? "", {max: "7", inputmode: "numeric", ph: "pvz., 350"}),
+    field("Kainos pastaba", "fPNote", item.price_note, {max: "80", ph: "pvz., apie 300–400 kr"}),
+    field("Tekstas Isabelle", "fKid", item.kid_text, {area: true, max: "200"}),
+    field("Pastaba suaugusiesiems", "fAdult", item.adult_text, {area: true, max: "400"}),
+    field("Nuoroda į parduotuvę", "fLink", item.link, {max: "500", ph: "https://..."}),
+    field("Paveikslėlio nuoroda", "fImg", item.image && item.image.startsWith("glyph:") ? "" : item.image, {max: "500", ph: "https://...jpg"}),
+    el("label", {class: "check", for: "fSecret"}, secret, "Slapta – Isabelle šios dovanos nemato"),
+    el("div", {class: "actions"},
+      isNew ? null : del,
+      el("button", {type: "button", class: "small-btn ghost", onclick: closeModal}, "Atšaukti"),
+      el("button", {type: "button", class: "small-btn green", onclick: save}, "Išsaugoti")));
+}
+
+/* ---------- render ---------- */
+function render(){
+  if (!S.role) return;
+  const adult = S.role === "adult";
+  $("title").innerHTML = ""; $("title").append(adult ? "Isabelle norų sąrašas " : "Labas, Isabelle! ", el("span", {class: "heart"}, "♥"));
+  $("eyebrow").textContent = S.title || "Kalėdų norų sąrašas";
+  $("intro").textContent = adult
+    ? "Pasirinkite dovaną ir paspauskite „Aš perku“ – kiti iškart matys, kad ji užimta, todėl niekas nenupirks dvigubai. Širdelės rodo, kaip labai Isabelle jos nori."
+    : "Paspausk širdeles ir parodyk, kaip labai nori kiekvieno daikto. Trys širdelės – labiausiai! Jei kažko nebenori, spausk „Pašalinti iš sąrašo“.";
+  $("footer").textContent = adult
+    ? "Kainos apytikslės: Norvegijos kronomis, € – tik orientacinės (" + CONFIG.eurRate + " kr = 1 €). Nuotraukos iš internetinių parduotuvių, tik orientacijai."
+    : "Tavo pakeitimai išsaugomi iš karto.";
+  if (!REMOTE) notice("Demonstracinė versija: pakeitimai saugomi tik šiame įrenginyje. Prijunkite duomenų bazę (žr. README), kad matytų visa šeima.");
+
+  const meBar = $("meBar");
+  meBar.hidden = !adult;
+  if (adult) meBar.replaceChildren(
+    S.me ? el("span", {}, "Jūs esate: ", el("b", {}, S.me)) : el("span", {}, "Dar neįrašėte vardo."),
+    el("button", {type: "button", class: "linkbtn", onclick: () => askName()}, S.me ? "Pakeisti" : "Įrašyti vardą"));
+
+  const items = S.items.slice();
+  if (adult && S.sortHearts) items.sort((a, b) => (b.hearts || 0) - (a.hearts || 0));
+
+  // summary + filters
+  const bar = $("bar"); bar.hidden = false;
+  if (adult) {
+    const active = S.items.filter(i => !i.removed_by_kid);
+    const taken = active.filter(i => S.claims[i.id]);
+    const freeNok = active.filter(i => !S.claims[i.id]).reduce((s, i) => s + (i.price_nok || 0), 0);
+    const mineItems = S.items.filter(i => { const c = S.claims[i.id]; return c && (c.buyer_device === deviceId || (S.me && (c.partners || []).includes(S.me))); });
+    const mineNok = mineItems.reduce((s, i) => s + (i.price_nok || 0), 0);
+    const fbtn = (key, label) => el("button", {type: "button", class: "btn", "aria-pressed": String(S.filter === key), onclick: () => { S.filter = key; render(); }}, label);
+    bar.replaceChildren(
+      el("span", {class: "chip"}, "Užimta " + taken.length + " iš " + active.length),
+      el("span", {class: "chip free"}, "Laisva ~" + fmt(freeNok) + " kr"),
+      el("span", {class: "chip mine"}, "Mano: " + mineItems.length + " · ~" + fmt(mineNok) + " kr"),
+      fbtn("all", "Visos"), fbtn("free", "Laisvos"), fbtn("mine", "Mano"),
+      el("button", {type: "button", class: "btn", "aria-pressed": String(S.sortHearts), onclick: () => { S.sortHearts = !S.sortHearts; render(); }}, "Pagal širdeles"),
+      el("button", {type: "button", class: "btn primary", onclick: () => editForm(null)}, "+ Pridėti dovaną"),
+      el("button", {type: "button", class: "btn", onclick: copyFree}, "Kopijuoti laisvas"),
+      S.loadedAt ? el("span", {class: "updated"}, "Atnaujinta " + S.loadedAt.toLocaleTimeString("lt-LT", {hour: "2-digit", minute: "2-digit"})) : null);
+  } else {
+    bar.replaceChildren(el("button", {type: "button", class: "btn primary", onclick: kidAddForm}, "+ Pridėti norą"));
+  }
+
+  const main = $("main"); main.replaceChildren();
+  const grid = list => { const g = el("div", {class: "grid"}); list.forEach(i => g.append(card(i))); return g; };
+  if (adult) {
+    const keep = i => S.filter === "all" ? true
+      : S.filter === "free" ? !S.claims[i.id] && !i.removed_by_kid
+      : (S.claims[i.id] && (S.claims[i.id].buyer_device === deviceId || (S.me && (S.claims[i.id].partners || []).includes(S.me))));
+    const own = items.filter(i => i.added_by === "kid" && !i.removed_by_kid && keep(i));
+    const fam = items.filter(i => i.added_by !== "kid" && !i.removed_by_kid && keep(i));
+    const gone = items.filter(i => i.removed_by_kid && keep(i));
+    main.append(el("h2", {}, "Isabelle norai"), el("p", {class: "sub"}, "Numeriai tokie patys kaip jos ranka rašytame sąraše."),
+      own.length ? grid(own) : el("p", {class: "empty"}, "Nieko nerasta."));
+    main.append(el("h2", {}, "Šeimos pasiūlymai"), el("p", {class: "sub"}, "Pažymėti „Slapta“ – Isabelle nematomi. Kitus ji mato ir gali įvertinti."),
+      fam.length ? grid(fam) : el("p", {class: "empty"}, "Nieko nerasta."));
+    if (gone.length) main.append(el("h2", {}, "Isabelle pašalino"), el("p", {class: "sub"}, "Ji šių nebenori. Jei jau nupirkote – nieko tokio, matote, kas pažymėta."), grid(gone));
+  } else {
+    const own = items.filter(i => i.added_by === "kid" && !i.removed_by_kid);
+    const fam = items.filter(i => i.added_by !== "kid" && !i.removed_by_kid);
+    const gone = items.filter(i => i.removed_by_kid);
+    main.append(el("h2", {}, "Mano norai"), el("p", {class: "sub"}, "Numeriai tokie patys kaip tavo sąraše."), own.length ? grid(own) : el("p", {class: "empty"}, "Kol kas tuščia."));
+    if (fam.length) main.append(el("h2", {}, "Šeimos pasiūlymai"), el("p", {class: "sub"}, "Ar nori ir šitų? Duok širdelių arba pašalink."), grid(fam));
+    if (gone.length) {
+      const d = el("details", {class: "removed"}, el("summary", {}, "Pašalinti norai (" + gone.length + ")"));
+      gone.forEach(i => d.append(el("div", {class: "mini"}, el("span", {}, i.title), el("button", {type: "button", class: "small-btn", onclick: () => setRemoved(i, false)}, "Grąžinti"))));
+      main.append(d);
+    }
+  }
+}
+async function copyFree(){
+  const free = S.items.filter(i => !i.removed_by_kid && !S.claims[i.id]);
+  const text = "Laisvos dovanos Isabelle:\n" + free.map(i => "- " + (i.num ? i.num + ". " : "") + i.title + (i.price_nok != null ? " (~" + fmt(i.price_nok) + " kr)" : "")).join("\n") + "\n\n" + location.href;
+  const box = $("copyBox"); box.value = text;
+  try { await navigator.clipboard.writeText(text); box.hidden = true; toast("Nukopijuota – įklijuokite į šeimos pokalbį."); }
+  catch(e) { box.hidden = false; box.focus(); box.select(); }
+}
+
+countdown();
+if (REMOTE && !KEY) lockScreen(); else refresh();
+</script>
+</body>
+</html>
