@@ -124,6 +124,7 @@ details.removed summary{cursor:pointer;font-family:var(--display);font-size:20px
 
 .toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--paper);color:var(--ink);font-weight:800;border-radius:14px;padding:12px 18px;box-shadow:0 8px 24px #0006;z-index:30;max-width:min(92vw,520px)}
 .toast[hidden]{display:none}
+.toast .undo{color:#4b3bb5}
 .copybox{width:100%;min-height:150px;font:14px/1.4 var(--body);border-radius:12px;padding:10px;margin-top:8px}
 .copybox[hidden]{display:none}
 footer{margin-top:36px;color:#9d97c6;font-size:13px;max-width:72ch}
@@ -206,7 +207,7 @@ function localApi(){
         id: uid(), num: it.num ?? null, title: it.title, kid_text: it.kid_text || "", adult_text: it.adult_text || "",
         image: it.image || (it.glyph ? "glyph:" + it.glyph : ""), price_nok: it.price_nok ?? null, price_note: it.price_note || "",
         link: it.link || "", search: it.search || "", secret: !!it.secret, added_by: it.added_by || "family",
-        hearts: 0, kid_note: "", removed_by_kid: false, ask_note: !!it.ask_note, sort: i + 1, created_at: new Date().toISOString()
+        hearts: 0, kid_note: "", removed_by_kid: !!it.removed_by_kid, ask_note: !!it.ask_note, sort: i + 1, created_at: new Date().toISOString()
       })), claims: []};
       save(d);
     }
@@ -293,7 +294,7 @@ function countdown(){
   $("daysLabel").textContent = d === 0 ? "Šiandien Kūčios!" : dayWord(d) + " iki Kūčių";
 }
 let toastTimer = null;
-function toast(msg){ const t = $("toast"); t.textContent = msg; t.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => t.hidden = true, 3500); }
+function toast(msg, undo){ const t = $("toast"); t.replaceChildren(msg); if (undo) t.append(" ", el("button", {type: "button", class: "linkbtn undo", onclick: () => { t.hidden = true; undo(); }}, "Atšaukti")); t.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => t.hidden = true, undo ? 6000 : 3500); }
 function notice(msg){ $("notice").textContent = msg || ""; $("notice").hidden = !msg; }
 
 /* ---------- loading ---------- */
@@ -344,7 +345,7 @@ async function act(promise, okMsg){
 }
 function setHearts(item, n){ item.hearts = n; render(); act(api.kidSet(item.id, {hearts: n})); }
 function setNote(item, text){ act(api.kidSet(item.id, {note: text}), "Išsaugota!"); }
-function setRemoved(item, v){ item.removed_by_kid = v; render(); act(api.kidSet(item.id, {removed: v}), v ? "Pašalinta. Gali grąžinti apačioje." : "Grąžinta!"); }
+async function setRemoved(item, v){ item.removed_by_kid = v; render(); await act(api.kidSet(item.id, {removed: v})); toast(v ? "„" + item.title + "“ pašalinta." : "Grąžinta!", v ? () => setRemoved(item, false) : null); }
 function claim(item){ if (!S.me) { askName(() => claim(item)); return; } act(api.claim(item.id, S.me), "Puiku! " + item.title + " – jūsų."); }
 function unclaim(item, force){ S.confirm = null; act(api.unclaim(item.id, force), "Dovana vėl laisva."); }
 function join(item, leave){ if (!S.me) { askName(() => join(item, leave)); return; } act(api.join(item.id, S.me, leave), leave ? "Nebeprisidedate." : "Prisidedate prie šios dovanos!"); }
@@ -537,7 +538,7 @@ function render(){
   $("eyebrow").textContent = S.title || "Kalėdų norų sąrašas";
   $("intro").textContent = adult
     ? "Pasirinkite dovaną ir paspauskite „Aš perku“ – kiti iškart matys, kad ji užimta, todėl niekas nenupirks dvigubai. Širdelės rodo, kaip labai Isabelle jos nori."
-    : "Paspausk širdeles ir parodyk, kaip labai nori kiekvieno daikto. Trys širdelės – labiausiai! Jei kažko nebenori, spausk „Pašalinti iš sąrašo“.";
+    : "Paspausk širdeles ir parodyk, kaip labai nori kiekvieno daikto. Trys širdelės – labiausiai! Jei kažko nebenori, spausk „Pašalinti iš sąrašo“ – jis dings iš sąrašo.";
   $("footer").textContent = adult
     ? "Kainos apytikslės: Norvegijos kronomis, € – tik orientacinės (" + CONFIG.eurRate + " kr = 1 €). Nuotraukos iš internetinių parduotuvių, tik orientacijai."
     : "Tavo pakeitimai išsaugomi iš karto.";
@@ -580,25 +581,19 @@ function render(){
     const keep = i => S.filter === "all" ? true
       : S.filter === "free" ? !S.claims[i.id] && !i.removed_by_kid
       : (S.claims[i.id] && (S.claims[i.id].buyer_device === deviceId || (S.me && (S.claims[i.id].partners || []).includes(S.me))));
-    const own = items.filter(i => i.added_by === "kid" && !i.removed_by_kid && keep(i));
-    const fam = items.filter(i => i.added_by !== "kid" && !i.removed_by_kid && keep(i));
-    const gone = items.filter(i => i.removed_by_kid && keep(i));
+    // Removed wishes vanish, unless someone already reserved them: then the buyer still sees the card, tagged.
+    const shown = i => !i.removed_by_kid || S.claims[i.id];
+    const own = items.filter(i => i.added_by === "kid" && shown(i) && keep(i));
+    const fam = items.filter(i => i.added_by !== "kid" && shown(i) && keep(i));
     main.append(el("h2", {}, "Isabelle norai"), el("p", {class: "sub"}, "Numeriai tokie patys kaip jos ranka rašytame sąraše."),
       own.length ? grid(own) : el("p", {class: "empty"}, "Nieko nerasta."));
     main.append(el("h2", {}, "Šeimos pasiūlymai"), el("p", {class: "sub"}, "Pažymėti „Slapta“ – Isabelle nematomi. Kitus ji mato ir gali įvertinti."),
       fam.length ? grid(fam) : el("p", {class: "empty"}, "Nieko nerasta."));
-    if (gone.length) main.append(el("h2", {}, "Isabelle pašalino"), el("p", {class: "sub"}, "Ji šių nebenori. Jei jau nupirkote – nieko tokio, matote, kas pažymėta."), grid(gone));
   } else {
     const own = items.filter(i => i.added_by === "kid" && !i.removed_by_kid);
     const fam = items.filter(i => i.added_by !== "kid" && !i.removed_by_kid);
-    const gone = items.filter(i => i.removed_by_kid);
     main.append(el("h2", {}, "Mano norai"), el("p", {class: "sub"}, "Numeriai tokie patys kaip tavo sąraše."), own.length ? grid(own) : el("p", {class: "empty"}, "Kol kas tuščia."));
     if (fam.length) main.append(el("h2", {}, "Šeimos pasiūlymai"), el("p", {class: "sub"}, "Ar nori ir šitų? Duok širdelių arba pašalink."), grid(fam));
-    if (gone.length) {
-      const d = el("details", {class: "removed"}, el("summary", {}, "Pašalinti norai (" + gone.length + ")"));
-      gone.forEach(i => d.append(el("div", {class: "mini"}, el("span", {}, i.title), el("button", {type: "button", class: "small-btn", onclick: () => setRemoved(i, false)}, "Grąžinti"))));
-      main.append(d);
-    }
   }
 }
 async function copyFree(){
