@@ -585,7 +585,7 @@ function render(){
     const active = S.items.filter(i => !i.removed_by_kid);
     const taken = visible.filter(i => S.claims[i.id]);
     const free = active.filter(i => !S.claims[i.id]);
-    const mineItems = visible.filter(isMine);
+    const mineItems = S.items.filter(isMine); // includes wishes Isabelle removed but someone still buys
     const sum = list => list.reduce((s, i) => s + (i.price_nok || 0), 0);
     const stat = (k, v, small) => el("div", {class: "stat"}, el("div", {class: "k"}, k), el("div", {class: "v"}, v, small ? el("small", {}, " " + small) : null));
     const tab = (key, label, n) => el("button", {type: "button", "aria-pressed": String(S.filter === key), onclick: () => { S.filter = key; render(); }}, label, el("span", {class: "n"}, String(n)));
